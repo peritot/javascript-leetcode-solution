@@ -1,3 +1,3 @@
-# LetCode JavaScript Solution
+# LeetCode JavaScript Solution
 
-LetCode JavaScript Solution
+LeetCode JavaScript Solution
