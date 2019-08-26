@@ -3,29 +3,37 @@
  * @return {string}
  */
 const longestPalindrome = function (s) {
-  let ans = '';
-
   if (s.length < 2) {
     return s;
   }
 
+  let start = 0, end = 0;
   for (let i = 0; i < s.length; i++) {
-    for (let j = i + 1; j <= s.length; j++) {
-      let r = s.substring(i, j);
-      if (isPalindrome(r) && r.length > ans.length) {
-        ans = r;
+    let lo = expand(s, i, i);
+    let le = expand(s, i, i + 1);
+    let loe = lo > le ? lo : le;
+    if (loe > end - start) {
+      if (loe % 2 === 0) {
+        start = i + 1 - loe / 2;
+        end = i + loe / 2;
+      } else {
+        start = i - (loe - 1) / 2;
+        end = i + (loe - 1) / 2;
       }
     }
   }
 
-  return ans;
+  return s.substring(start, end + 1);
 }
 
-const isPalindrome = (s) => {
-  for (let i = 0; i <= s.length / 2; i++) {
-    if (s[i] !== s[s.length - 1 - i]) {
-      return false;
+const expand = (s, l, r) => {
+  let lr = 0;
+  while (l >= 0 && r < s.length && s[l] === s[r]) {
+    if (s[l] === s[r]) {
+      lr = r - l + 1;
     }
+    l--;
+    r++;
   }
-  return true;
+  return lr;
 }
