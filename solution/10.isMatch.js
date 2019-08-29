@@ -16,23 +16,34 @@ const isMatch = function (s, p) {
     }
   }
 
-  return step(s, r, 0, 0);
-}
-
-const step = (s, r, i, j) => {
-  if (j === r.length) {
-    return i === s.length;
-  }
-
-  if (j < r.length && r[j].repeat === true) {
-    if (i < s.length && (r[j].value === '.' || s[i] === r[j].value)) {
-      return step(s, r, i + 1, j) || step(s, r, i, j + 1);
-    } else {
-      return step(s, r, i, j + 1);
+  let m = [];
+  for (let i = 0; i <= s.length; i++) {
+    m[i] = [];
+    for (let j = 0; j <= r.length; j++) {
+      m[i][j] = null;
     }
   }
-  if (i < s.length && (r[j].value === '.' || s[i] === r[j].value)) {
-    return step(s, r, i + 1, j + 1);
+  return step(m, s, r, 0, 0);
+}
+
+const step = (m, s, r, i, j) => {
+  if (m[i][j] !== null) {
+    return m[i][j] === true;
   }
-  return false;
+
+  let ans = null;
+  if (j === r.length) {
+    ans = i === s.length;
+  } else {
+    let match = i < s.length && (r[j].value === s[i] || r[j].value === '.');
+    if (j < r.length && r[j].repeat === true) {
+      ans = step(m, s, r, i, j + 1) || (match && step(m, s, r, i + 1, j));
+    } else {
+      ans = match && step(m, s, r, i + 1, j + 1);
+    }
+  }
+  m[i][j] = ans ? true : false;
+
+  console.log(m);
+  return ans;
 }
