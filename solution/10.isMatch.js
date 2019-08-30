@@ -44,6 +44,5 @@ const step = (m, s, r, i, j) => {
   }
   m[i][j] = ans ? true : false;
 
-  console.log(m);
   return ans;
 }
