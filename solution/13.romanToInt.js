@@ -5,18 +5,18 @@
 const romanToInt = function (s) {
   let ans = 0;
 
-  let nums = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-  let romans = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+  let rn = { 'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1 };
 
   let i = 0;
-  let j = 0;
-  while (i < romans.length && j < s.length) {
-    if (s.substr(j, romans[i].length) === romans[i]) {
-      ans += nums[i];
+  while (i < s.length) {
+    if (i + 1 < s.length && rn[s.substr(i, 2)] > 0) {
+      ans += rn[s.substr(i, 2)];
 
-      j += romans[i].length;
+      i += 2;
     } else {
-      i++;
+      ans += rn[s.substr(i, 1)];
+
+      i += 1;
     }
   }
 
