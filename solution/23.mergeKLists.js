@@ -10,34 +10,32 @@
  * @return {ListNode}
  */
 const mergeKLists = function (lists) {
-  let head = new ListNode(0);
   if (lists.length === 0) {
-    return head.next;
-  }
+    return null;
+  } else if (lists.length === 1) {
+    return lists[0];
+  } else if (lists.length === 2) {
+    return mergeTwoLists(lists[0], lists[1]);
+  } else {
+    let middle = Math.ceil(lists.length / 2);
 
-  head = lists[0];
-  for (let i = 1; i < lists.length; i++) {
-    head = mergeTwoLists(head, lists[i]);
+    return mergeTwoLists(mergeKLists(lists.slice(0, middle)), mergeKLists(lists.slice(middle)));
   }
-
-  return head;
 }
 
-const mergeTwoLists = function (l1, l2) {
-  let head = new ListNode(0);
-
-  let h = head;
-  while (l1 !== null && l2 !== null) {
-    if (l1.val < l2.val) {
-      h.next = l1;
-      l1 = l1.next;
-    } else {
-      h.next = l2;
-      l2 = l2.next;
-    }
-    h = h.next;
+const mergeTwoLists = (l1, l2) => {
+  if (l1 === null) {
+    return l2;
   }
-  h.next = l1 !== null ? l1 : l2;
+  if (l2 === null) {
+    return l1;
+  }
 
-  return head.next;
+  if (l1.val < l2.val) {
+    l1.next = mergeTwoLists(l1.next, l2);
+    return l1;
+  } else {
+    l2.next = mergeTwoLists(l1, l2.next);
+    return l2;
+  }
 }
