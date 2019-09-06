@@ -11,45 +11,32 @@
  * @return {ListNode}
  */
 const reverseKGroup = function (head, k) {
-  let dummy = new ListNode(0);
-
-  step(dummy, head, k);
-
-  return dummy.next;
-}
-
-const step = (start, end, k) => {
+  let start = null;
+  let prev = null;
+  let curr = head;
   let i = 0;
-  let curr = end;
-  while (curr !== null) {
+
+  while (curr !== null && i < k) {
     curr = curr.next;
     i++;
   }
-  if (i < k) {
-    return addList(start, end);
-  } else {
-    i = 0;
-    let prev = null;
-    curr = end;
-    while (i < k) {
-      let next = curr.next;
-      curr.next = prev;
-      prev = curr;
-      curr = next;
-
-      i++;
-    }
-    return step(addList(start, prev), curr, k);
+  if (i !== k) {
+    return head;
   }
-}
 
-const addList = (l1, l2) => {
-  let head = l1;
-
-  while (l1.next !== null) {
-    l1 = l1.next;
+  curr = head;
+  i = 0;
+  while (curr !== null && i < k) {
+    start = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = start;
+    i++;
   }
-  l1.next = l2;
 
-  return head;
+  if (start !== null) {
+    head.next = reverseKGroup(start, k);
+  }
+
+  return prev;
 }
