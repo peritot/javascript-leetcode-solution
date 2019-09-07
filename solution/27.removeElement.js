@@ -3,15 +3,16 @@
  * @return {number}
  */
 const removeElement = function (nums, val) {
-  if (nums.length === 0) {
-    return 0
-  }
+  let ans = nums.length;
 
   let i = 0;
-  for (let j = 0; j < nums.length; j++) {
-    if (nums[j] !== val) {
-      nums[i++] = nums[j];
+  while (i < ans) {
+    if (nums[i] === val) {
+      nums[i] = nums[--ans];
+    } else {
+      i++;
     }
   }
-  return i;
+
+  return ans;
 }
