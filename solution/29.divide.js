@@ -20,9 +20,19 @@ const divide = function (dividend, divisor) {
   divisor = divisor > 0 ? divisor : -divisor;
 
   let ans = 0;
-  while (dividend >= divisor) {
-    dividend -= divisor;
-    ans++;
+  if (divisor === 1) {
+    ans = dividend;
+  } else {
+    while (dividend >= divisor) {
+      let t = divisor;
+      let p = 1;
+      while (t <= dividend >> 1) {
+        t = t << 1;
+        p = p << 1;
+      }
+      dividend -= t;
+      ans += p;
+    }
   }
   if (negative) {
     ans = -ans;
