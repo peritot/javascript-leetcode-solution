@@ -9,18 +9,36 @@ const strStr = function (haystack, needle) {
   }
 
   let i = 0;
-  while (i < haystack.length) {
-    var flag = true;
-    for (let j = 0; j < needle.length; j++) {
-      if (haystack[i + j] !== needle[j]) {
-        flag = false;
-        break;
-      }
+  let j = 0;
+  let next = getNext(needle);
+  while (i < haystack.length && j < needle.length) {
+    if (j === -1 || haystack[i] === needle[j]) {
+      i++;
+      j++;
+    } else {
+      j = next[j];
     }
-    if (flag) {
-      return i;
-    }
-    i++;
+  }
+  if (j === needle.length) {
+    return i - j;
   }
   return -1;
+}
+
+const getNext = (s) => {
+  let next = [-1];
+
+  let i = 0;
+  let j = -1;
+  while (i < s.length - 1) {
+    if (j === -1 || s[i] === s[j]) {
+      i++;
+      j++;
+      next[i] = j;
+    } else {
+      j = next[j];
+    }
+  }
+
+  return next;
 }
